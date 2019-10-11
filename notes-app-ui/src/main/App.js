@@ -1,17 +1,16 @@
 import React from 'react';
 import '../css/App.css';
 import FilesList from './components/FilesList';
-import {BrowserRouter} from 'react-router-dom';
+import {HashRouter, Route} from 'react-router-dom';
+import File from './components/File';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <FilesList/>
-      </header>
-      <BrowserRouter>
-
-      </BrowserRouter>
+        <HashRouter>
+            <Route path="/" exact={true} render={(props) => ( <FilesList {...props}/> )}/>
+            <Route path="/:noteId" render={(props) => (<File {...props} noteId={props.match.params.noteId}/>)}/>
+        </HashRouter>
     </div>
   );
 }

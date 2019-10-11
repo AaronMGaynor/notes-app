@@ -43,21 +43,20 @@ app.get('/api/v1/notes', (req, res) =>
 
 //PUT REST endpoint to put a note into the database
 app.put('/api/v1/notes', (req, res) => {
+    console.log(req.body);
         res.send(db.get('notes').upsert(req.body).write());
     }
 );
 
 //GET REST endpoint to get a specific note, selected by path parameter noteId
 app.get('/api/v1/notes/:noteId', (req, res) => {
-        const note = db.get('notes').find({id: Number(req.params.noteId)}).value();
-        res.send(note ? note : `Requested Note ${req.params.noteId} Could Not Be Found`);
+        res.send(db.get('notes').find({id: Number(req.params.noteId)}).value());
     }
 );
 
 //DELETE REST endpoint to delete a specific note, selected by path paramtere noteId
 app.delete('/api/v1/notes/:noteId', (req, res) => {
-        //TODO: MEANINGFUL IMPLEMENTATION
-        res.send('DELETED');
+        res.send(db.get('notes').removeById(Number(req.params.noteId)).write());
     }
 );
 
