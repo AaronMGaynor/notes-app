@@ -1,3 +1,4 @@
+import '@babel/polyfill';
 import React from 'react';
 import '../css/App.css';
 import FilesList from './components/FilesList';

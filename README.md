@@ -45,4 +45,4 @@ In the second terminal, navigate to notes-app/notes-app-ui and then follow these
   4. This should open 'http://localhost:3000' in your default browser
   
 ### Important Notes
-This app does not support IE
+This app does not support IE in development mode

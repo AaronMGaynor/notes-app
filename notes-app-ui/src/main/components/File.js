@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../../css/custom.css';
+import 'isomorphic-fetch';
 
 class File extends Component {
 
