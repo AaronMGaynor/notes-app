@@ -10,7 +10,8 @@ class File extends Component {
             note: {
                 title: '',
                 body: '',
-            }
+            },
+            hasError: false,
         };
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleBodyChange = this.handleBodyChange.bind(this);
@@ -18,8 +19,7 @@ class File extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props);
-        if(this.props.noteId !== "newNote") {
+        if(this.props.noteId !== 'newNote') {
             this.getNoteData();
         }
     }
@@ -28,8 +28,14 @@ class File extends Component {
         fetch(`/api/v1/notes/${this.props.noteId}`, {
             method: 'GET'
         })
-            .then(response => response.json())
+            .then(response => {
+                if(!response.ok){
+                    throw Error()
+                }
+                return response.json()
+            })
             .then(note => this.setState({note}))
+            .catch(error => this.setState({hasError: true}))
     }
 
     saveNoteData(){
@@ -39,20 +45,26 @@ class File extends Component {
             method: 'PUT',
             headers: head,
             body: JSON.stringify(this.state.note)
-        }).then(response => response.json())
+        }).then(response => {
+            if(!response.ok){
+                throw Error()
+            }
+            return response.json()
+        })
             .then(json => this.handlePostSave(json))
+            .catch(error => this.setState({hasError: true}))
     }
 
     handlePostSave(note){
-        console.log(note);
-        console.log(note.hasOwnProperty("id"));
-        if(note.hasOwnProperty("id")) {
-            this.props.noteId === "newNote" ?
+        if(note.hasOwnProperty('id')) {
+            this.props.noteId === 'newNote' ?
                 this.props.history.push(`/${note.id}`)
                 :
                 this.setState({
                     note
                 });
+        } else {
+            this.setState({hasError: true})
         }
     }
 
@@ -77,12 +89,18 @@ class File extends Component {
     render(){
         return(
             <div>
-                <Link to="/">Home</Link>
-                <form onSubmit={this.saveNoteData}>
-                    <input className="block-center" type={"text"} placeholder={"Title"} value={this.state.note.title} onChange={this.handleTitleChange}/>
-                    <textarea className="block-center" placeholder={"Input Notes Here"} value={this.state.note.body} onChange={this.handleBodyChange}/>
-                    <button className="block-center" type={"submit"} value={"Save"}>Save</button>
-                </form>
+                <Link to='/'>Home</Link>
+                { this.state.hasError ?
+                    <p>An Error Occurred Loading This Page, Try Again Later</p>
+                    :
+                    <form onSubmit={this.saveNoteData}>
+                        <input className='block-center' id={'title'} type={'text'} placeholder={'Title'}
+                               value={this.state.note.title} onChange={this.handleTitleChange}/>
+                        <textarea className='block-center' id={'body'} placeholder={'Input Notes Here'} value={this.state.note.body}
+                                  onChange={this.handleBodyChange}/>
+                        <button className='block-center' type={'submit'} value={'Save'}>Save</button>
+                    </form>
+                }
             </div>
         )
     }

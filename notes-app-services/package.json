@@ -9,6 +9,12 @@
     "lowdb": "^1.0.0"
   },
   "scripts": {
-    "start": "node ./src/app.js"
+    "start": "node src/main/app.js",
+    "test": "mocha src/test/**/*.spec.js"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.1",
+    "supertest": "^4.0.2"
   }
 }
