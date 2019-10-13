@@ -131,11 +131,66 @@ describe('Files List Unit Tests', function(){
                     let previewElements = wrapper.instance().getListItems();
                     expect(previewElements.length).to.equal(notesResponse.length);
                     notesResponse.map((note, index) => {
-                        console.log(previewElements[index]);
-                        expect(previewElements[index].props.note.id).to.equal(note.id);
-                        expect(previewElements[index].props.note.title).to.equal(note.title);
-                        expect(previewElements[index].props.note.body).to.equal(note.body);
-                    })
+                        expect(previewElements[index].key).to.equal(note.id.toString());
+                    });
+                });
+            });
+
+            after(() => {
+                fetchMock.reset();
+            });
+
+        });
+
+    });
+
+    describe('Test Delete Note', function(){
+
+        let notes = [
+            {
+                id: 1,
+                title: 'Test Title',
+                body: 'Test Body'
+            }
+        ];
+
+        describe('Gets Successful Response', function(){
+
+            it('Calls Get Files List', function(){
+                fetchMock.get('/api/v1/notes', notes);
+                fetchMock.delete(`/api/v1/notes/${notes[0].id}`, 200);
+                let wrapper = shallow(<FilesList />);
+                setImmediate(() => {
+                    wrapper.update();
+                    wrapper.instance().deleteNote(notes[0].id);
+                    setImmediate(() => {
+                        expect(fetchMock.calls(`/api/v1/notes/${notes[0].id}`).length).to.equal(1);
+                        expect(fetchMock.calls('/api/v1/notes').length).to.equal(2);
+                    });
+                });
+            });
+
+            after(() => {
+                fetchMock.reset();
+            });
+
+        });
+
+        describe('Gets Erroneous Response', function(){
+
+            it('Sets hasError to true', function(){
+                fetchMock.get('/api/v1/notes', notes);
+                fetchMock.delete(`/api/v1/notes/${notes[0].id}`, 404);
+                let wrapper = shallow(<FilesList />);
+                setImmediate(() => {
+                    wrapper.update();
+                    wrapper.instance().deleteNote(notes[0].id);
+                    setImmediate(() => {
+                        wrapper.update();
+                        expect(fetchMock.calls(`/api/v1/notes/${notes[0].id}`).length).to.equal(1);
+                        expect(fetchMock.calls('/api/v1/notes').length).to.equal(1);
+                        expect(wrapper.state().hasError).to.equal(true);
+                    });
                 });
             });
 
@@ -159,8 +214,8 @@ describe('Files List Render Tests', function(){
             let wrapper = shallow(<FilesList/>);
             setImmediate(() => {
                 wrapper.update();
-                expect(wrapper.find('Link').text()).to.equal('New Note');
-                expect(wrapper.find('FilePreview').length).to.equal(0);
+                expect(wrapper.find('button').text()).to.equal('New Note');
+                expect(wrapper.find('.preview').length).to.equal(0);
                 expect(wrapper.find('p').length).to.equal(0);
             });
         });
@@ -184,9 +239,9 @@ describe('Files List Render Tests', function(){
             let wrapper = shallow(<FilesList/>);
             setImmediate(() => {
                 wrapper.update();
-                expect(wrapper.find('Link').text()).to.equal('New Note');
-                expect(wrapper.find('FilePreview').length).to.equal(1);
-                expect(wrapper.find('p').length).to.equal(0);
+                expect(wrapper.find('button').at(0).text()).to.equal('New Note');
+                expect(wrapper.find('.preview').length).to.equal(1);
+                expect(wrapper.find('p').text()).to.equal(notes[0].body);
             });
         });
 
@@ -203,7 +258,7 @@ describe('Files List Render Tests', function(){
             let wrapper = shallow(<FilesList/>);
             setImmediate(() => {
                 wrapper.update();
-                expect(wrapper.find('Link').length).to.equal(0);
+                expect(wrapper.find('button').length).to.equal(0);
                 expect(wrapper.find('FilePreview').length).to.equal(0);
                 expect(wrapper.find('p').text()).to.equal('An Error Occurred Loading This Page, Please Try Again Later');
             });

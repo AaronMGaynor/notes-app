@@ -329,10 +329,10 @@ describe('File Render Tests', function(){
         it('Renders Input fields with no text', function(){
             let wrapper = shallow(<File noteId={noteId}/>);
             wrapper.update();
-            expect(wrapper.find('Link').text()).to.equal('Home');
+            expect(wrapper.find('button').at(0).text()).to.equal('Home');
             expect(wrapper.find('input').props().value).to.equal('');
             expect(wrapper.find('textarea').props().value).to.equal('');
-            expect(wrapper.find('button').text()).to.equal('Save');
+            expect(wrapper.find('button').at(1).text()).to.equal('Save');
             expect(wrapper.find('p').length).to.equal(0);
         });
 
@@ -349,10 +349,10 @@ describe('File Render Tests', function(){
             let wrapper = shallow(<File noteId={noteId}/>);
             setImmediate(() => {
                 wrapper.update();
-                expect(wrapper.find('Link').text()).to.equal('Home');
+                expect(wrapper.find('button').at(0).text()).to.equal('Home');
                 expect(wrapper.find('input').props().value).to.equal(note.title);
                 expect(wrapper.find('textarea').props().value).to.equal(note.body);
-                expect(wrapper.find('button').text()).to.equal('Save');
+                expect(wrapper.find('button').at(1).text()).to.equal('Save');
                 expect(wrapper.find('p').length).to.equal(0);
             });
         });
@@ -375,10 +375,10 @@ describe('File Render Tests', function(){
             let wrapper = shallow(<File noteId={noteId}/>);
             setImmediate(() => {
                 wrapper.update();
-                expect(wrapper.find('Link').text()).to.equal('Home');
+                expect(wrapper.find('button').at(0).text()).to.equal('Home');
                 expect(wrapper.find('input').props().value).to.equal(note.title);
                 expect(wrapper.find('textarea').props().value).to.equal(note.body);
-                expect(wrapper.find('button').text()).to.equal('Save');
+                expect(wrapper.find('button').at(1).text()).to.equal('Save');
                 expect(wrapper.find('p').length).to.equal(0);
             });
         });
@@ -398,10 +398,10 @@ describe('File Render Tests', function(){
             let wrapper = shallow(<File noteId={noteId}/>);
             setImmediate(() => {
                 wrapper.update();
-                expect(wrapper.find('Link').text()).to.equal('Home');
+                expect(wrapper.find('button').at(0).text()).to.equal('Home');
                 expect(wrapper.find('input').length).to.equal(0);
                 expect(wrapper.find('textarea').length).to.equal(0);
-                expect(wrapper.find('button').length).to.equal(0);
+                expect(wrapper.find('button').length).to.equal(1);
                 expect(wrapper.find('p').text()).to.equal('An Error Occurred Loading This Page, Try Again Later');
             });
         });

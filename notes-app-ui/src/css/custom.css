@@ -1,5 +1,47 @@
-.block-center{
+.preview {
+    background: #f0f0f0;
+    border: none;
+    width: calc(100% - 1rem);
+    text-align: left;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+}
+
+.preview > h5 {
+    text-decoration: underline;
+    margin-top: 0;
+}
+
+.preview > p {
+    font-size: xx-small;
+}
+
+.preview > button {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.stick {
+    position: sticky;
+    top: 0.5rem;
+    float: right;
+    margin-right: 0.5rem;
+}
+
+.note-create > input, .note-create > button, .note-create > textarea {
     display: block;
+}
+
+.note-create > input, .note-create > button {
+    margin-top: 0.5rem;
     margin-left: auto;
     margin-right: auto;
+}
+
+.note-create > textarea {
+    resize: none;
+    width: calc(100% - 1rem);
+    margin: 0.5rem;
+    height: 15em;
+    border: none;
 }

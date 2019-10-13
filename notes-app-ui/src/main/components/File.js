@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
 import '../../css/custom.css';
 
 class File extends Component {
@@ -89,16 +88,16 @@ class File extends Component {
     render(){
         return(
             <div>
-                <Link to='/'>Home</Link>
+                <button className='stick' onClick={() => this.props.history.push('/')}>Home</button>
                 { this.state.hasError ?
                     <p>An Error Occurred Loading This Page, Try Again Later</p>
                     :
-                    <form onSubmit={this.saveNoteData}>
-                        <input className='block-center' id={'title'} type={'text'} placeholder={'Title'}
+                    <form className='note-create' onSubmit={this.saveNoteData}>
+                        <input id={'title'} type={'text'} placeholder={'Title'}
                                value={this.state.note.title} onChange={this.handleTitleChange}/>
-                        <textarea className='block-center' id={'body'} placeholder={'Input Notes Here'} value={this.state.note.body}
+                        <textarea id={'body'} placeholder={'Input Notes Here'} value={this.state.note.body}
                                   onChange={this.handleBodyChange}/>
-                        <button className='block-center' type={'submit'} value={'Save'}>Save</button>
+                        <button type={'submit'} value={'Save'}>Save</button>
                     </form>
                 }
             </div>
