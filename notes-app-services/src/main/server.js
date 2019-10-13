@@ -1,6 +1,7 @@
 //Express Dependencies
 const express = require('express');
 const app = express();
+const path = require('path');
 const parser = require('body-parser');
 
 //GLOBALS
@@ -33,6 +34,8 @@ function server(dbfile) {
 
     app.use(parser.json());
 
+    app.use(express.static(path.join(__dirname, '../../../notes-app-ui/build')));
+
     //GET REST endpoint to get all notes
     app.get('/api/v1/notes', (req, res) =>
         res.send(app.db.get('notes').value())
@@ -55,6 +58,10 @@ function server(dbfile) {
             res.send(app.db.get('notes').removeById(Number(req.params.noteId)).write());
         }
     );
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../../../notes-app-ui/build'));
+    });
 
     //Start app listening on designated port
     app.listen(port, () => console.log(`App listening on port ${port}`));

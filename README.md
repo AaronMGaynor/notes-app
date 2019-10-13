@@ -23,26 +23,12 @@ After downloading the notes-app repository, open a terminal and navigate to note
 
 ## Running
 
-### To Run in Dev Mode:
-
-After going through the Installation steps, open two terminals and do the following:
-
-In the first terminal, navigate to notes-app/notes-app-services and then follow these steps:
-  1. Ensure port 3001 is open and available, if it is not, then you may switch the port by changing the port variable in server.js to a desired port value (make note of this port value)
-  2. In the terminal, run the following command:
-  
-    `npm run start`
-  3. Wait for the command to output the following:
-  
-    `App listening on port 3001`
-    
-In the second terminal, navigate to notes-app/notes-app-ui and then follow these steps:
-  1. Ensure port 3000 is open and available
-  2. If you edited the port in step 1 of the notes-app-services startup, edit the proxy value in package.json from 'http://localhost:3001' to 'http://localhost:{your port value}'
-  3. In the terminal, run the following command:
-    
-    `npm run start`
-  4. This should open 'http://localhost:3000' in your default browser
+After going through the Installation steps, open a terminal and do the following:
+  1. navigate to notes-app/notes-app-ui
+  2. run `npm build`
+  3. navigate to notes-app/notes-app-services
+  4. run `npm run start`
+  5. wait for 'App listening on port 3001' to print to console
   
 ### Important Notes
 This app does not support IE in development mode
