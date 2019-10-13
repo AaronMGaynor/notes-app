@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const parser = require('body-parser');
 
+//GLOBALS
+const port = 3001;
 
 //DB Dependencies
 const low = require('lowdb');
@@ -13,9 +15,6 @@ const lodashId = require('lodash-id');
 function server(dbfile) {
     const adapter = new FileSync(dbfile);
     app.db = low(adapter);
-
-    //GLOBALS
-    const port = 8000;
 
     //DB Setup
     app.db.defaults({notes: []})
