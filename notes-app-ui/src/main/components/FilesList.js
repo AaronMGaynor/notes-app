@@ -63,7 +63,7 @@ class FilesList extends Component {
                     <p>An Error Occurred Loading This Page, Please Try Again Later</p>
                 </div>
                 :
-                <div>
+                <div className='files-list'>
                     <button className='stick' onClick={() => this.props.history.push('/newNote')}>New Note</button>
                     {this.getListItems()}
                 </div>
