@@ -26,6 +26,8 @@
     top: 0.5rem;
     float: right;
     margin-right: 0.5rem;
+    height: 2rem;
+    width: 8rem;
 }
 
 .note-create > input, .note-create > button, .note-create > textarea {

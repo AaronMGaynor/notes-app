@@ -29,4 +29,4 @@ After going through the Installation steps, open a terminal and do the following
   3. navigate to notes-app/notes-app-services
   4. run `npm run start`
   5. wait for 'App listening on port 3001' to print to console
-  
+  6. To ensure the app is running, open 'http://localhost:3001' in your browser of choice
