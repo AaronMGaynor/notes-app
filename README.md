@@ -25,10 +25,8 @@ After downloading the notes-app repository, open a terminal and navigate to note
 
 After going through the Installation steps, open a terminal and do the following:
   1. navigate to notes-app/notes-app-ui
-  2. run `npm build`
+  2. run `npm run build`
   3. navigate to notes-app/notes-app-services
   4. run `npm run start`
   5. wait for 'App listening on port 3001' to print to console
   
-### Important Notes
-This app does not support IE in development mode
