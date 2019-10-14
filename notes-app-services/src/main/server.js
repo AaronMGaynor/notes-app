@@ -21,13 +21,8 @@ function server(dbfile) {
     app.db.defaults({notes: []})
         .write();
 
-    //set idIncrementer to one higher than the current highest id, if no items exist, set idIncrementer to 1
-    let idIncrementer = app.db.get('notes').value().length ? (app.db.get('notes').sortBy('id').last().value().id + 1) : 1;
-
     lodashId.createId = () => {
-        let id = idIncrementer;
-        idIncrementer++;
-        return id;
+        return app.db.get('notes').value().length ? (app.db.get('notes').sortBy('id').last().value().id + 1) : 1;
     };
 
     app.db._.mixin(lodashId);
@@ -43,7 +38,12 @@ function server(dbfile) {
 
     //PUT REST endpoint to put a note into the database
     app.put('/api/v1/notes', (req, res) => {
-            res.send(app.db.get('notes').upsert(req.body).write());
+            let note = req.body;
+            if(note.hasOwnProperty('title') && note.hasOwnProperty('body')) {
+                res.send(app.db.get('notes').upsert(note).write());
+            } else {
+                res.status(406).end();
+            }
         }
     );
 

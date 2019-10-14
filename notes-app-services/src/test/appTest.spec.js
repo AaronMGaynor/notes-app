@@ -23,12 +23,6 @@ describe('Test', function(){
         done();
     });
 
-    it('Returns 404', function(done){
-        request(app)
-            .get('/')
-            .expect(404, done);
-    });
-
     it('Returns Notes', function(done){
         request(app)
             .get('/api/v1/notes')
@@ -61,6 +55,46 @@ describe('Test', function(){
                expect(app.db.getState().notes.length).to.equal(3);
                done(err);
            })
+    });
+
+    it('Saves Note and Creates id for Note', function(done){
+        let postNote = {
+            title: 'Test 3',
+            body: 'Test Body 3'
+        };
+        request(app)
+            .put('/api/v1/notes')
+            .send(postNote)
+            .expect(200)
+            .end(function(err, res){
+                expect(res.body.id).to.equal(3);
+                expect(res.body.title).to.equal('Test 3');
+                expect(res.body.body).to.equal('Test Body 3');
+                expect(app.db.getState().notes.length).to.equal(3);
+                done(err);
+            })
+    });
+
+    it('Returns 406 When Note has no Title', function(done){
+        let postNote = {
+            id: 3,
+            body: 'Test Body'
+        };
+        request(app)
+            .put('/api/v1/notes')
+            .send(postNote)
+            .expect(406, done)
+    });
+
+    it('Returns 406 When Note has no Body', function(done){
+        let postNote = {
+            id: 3,
+            title: 'Test Title'
+        };
+        request(app)
+            .put('/api/v1/notes')
+            .send(postNote)
+            .expect(406, done)
     });
 
     it('Gets Note By Id', (done) => {
