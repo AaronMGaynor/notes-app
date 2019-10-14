@@ -10,7 +10,8 @@ function App() {
     <div className='App'>
         <HashRouter>
             <Route path='/' exact={true} render={(props) => ( <FilesList {...props}/> )}/>
-            <Route path='/:noteId' render={(props) => (<File {...props} noteId={props.match.params.noteId}/>)}/>
+            <Route path='/:noteId' render={(props) => (<File {...props} key={props.match.params.noteId}
+                                                             noteId={props.match.params.noteId}/>)}/>
         </HashRouter>
     </div>
   );

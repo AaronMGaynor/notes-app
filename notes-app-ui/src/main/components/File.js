@@ -12,6 +12,7 @@ class File extends Component {
                 body: '',
             },
             hasError: false,
+            locked: false,
         };
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleBodyChange = this.handleBodyChange.bind(this);
@@ -39,20 +40,24 @@ class File extends Component {
     }
 
     saveNoteData(){
-        let head = new Headers();
-        head.append('Content-Type', 'application/json');
-        fetch('/api/v1/notes', {
-            method: 'PUT',
-            headers: head,
-            body: JSON.stringify(this.state.note)
-        }).then(response => {
-            if(!response.ok){
-                throw Error()
-            }
-            return response.json()
-        })
-            .then(json => this.handlePostSave(json))
-            .catch(error => this.setState({hasError: true}))
+        if(!this.state.locked) {
+            this.setState({locked: true});
+            let head = new Headers();
+            head.append('Content-Type', 'application/json');
+            fetch('/api/v1/notes', {
+                method: 'PUT',
+                headers: head,
+                body: JSON.stringify(this.state.note)
+            }).then(response => {
+                if (!response.ok) {
+                    throw Error()
+                }
+                return response.json()
+            })
+                .then(json => this.handlePostSave(json))
+                .catch(error => this.setState({hasError: true}))
+                .finally(() => {this.setState({locked: false})})
+        }
     }
 
     handlePostSave(note){
